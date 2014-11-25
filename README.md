@@ -1,21 +1,65 @@
-# Simple data collector to Google Spreadsheet
+# spreadsheet_data_collector
 
-This is a simple script to collect TSV-formatted files and record in your Google Spreadsheet as new lines.
+Simple data collector which uploads TSV formatted data files to Google Spreadsheet.
+
+## Usage
+
+See [Installation](#installation) how to set up the collector.
+
+In the next example, `path/to/your_project` is your own project that creates daily report data into `data` directory as `data/YYYYMMDD.tsv`.
+
+Create `.spreadsheet_report.yml` in your project directory.
+
+```yaml
+---
+# spreadsheet_key will be found in the spreadsheet URL
+spreadsheet_key: YOUR_GOOGLE_SPREADSHEET_KEY
+sheet_name: YOUR_SHEET_NAME
+
+# Data directory which directly includes TSV files.
+# This is a relative path from your project root.
+directory: data
+
+# OPTIONAL
+# The collector regards the first line of TSV file as column names.
+# If your TSVs doesn't inclueds header, write column names as an array.
+columns:
+  - col1
+  - col2
+  - col3
+```
+
+Test:
+
+```bash
+$ bundle exec ./collect_data.rb -t path/to/your_project
+```
+
+If everything is okey, execute without `-t`
+
+```bash
+$ bundle exec ./collect_data.rb path/to/your_project
+```
+
+Confirm TSV data is written in the last row of your sheet.
+(If not, check your sheet's first line matches column names in TSV in any order.)
+
+You can add other targets in the same way.
 
 ## Installation
 
-### Getting Google Drive API key
+### Get Google Drive API key
 
-- Create a project at [Google Developers Console](https://console.developers.google.com/).
+- Create a project in [Google Developers Console](https://console.developers.google.com/).
 - Make Google Drive API available in API Section.
 - Get OAuth key for an native application.
-- Save secret JSON file.
+- Download application secret JSON file.
 
 ### Setting up the repository
 
 - Clone this repository.
-- cd and `bundle install`
-- Put above `.credentials.json` file in root directory of the repository.
+- `cd` and `bundle install`
+- Copy above JSON file as `.credentials.json` in root directory.
 - Test Spreadsheet API conection
 
 ```bash
@@ -27,52 +71,5 @@ And enter your access code printed in the authorized page.
 
 If authorization succeeded, Acquired token will be saved in `.token.yml` file.
 
-### Adding your data collection directory
-
-Create `.spreadsheet_report.yml` in your work directory.
-
-```yaml
----
-spreadsheet_key: YOUR_GOOGLE_SPREADSHEET_KEY
-sheet_name: YOUR_SHEET_NAME
-
-# Relative path from this YAML file to data diretory
-# which contains TSV files directly.
-directory: path/to/directory
-
-# OPTIONAL
-# If your tsv does not contains column header in first line,
-# write column name as an array.
-columns:
-  - col1
-  - col2
-  - col3
-```
-
-Create symbolic link to target directory in `reports` directory.
-
-```bash
-$ ln -s path/to/your_project target/
-```
-
-And run:
-
-```bash
-$ bundle exec ./collect_data.rb -t target/your_project
-```
-Prints collected files and record to upload. (Files updated within a day will be collected)
-If that's OK, execute without `-t`:
-
-```bash
-$ bundle exec ./collect_data.rb target/your_project
-```
-
-This writes results in the last row of your sheet.
-
-You can add other targets in the same way.
-
 ## See also
-- Google Sheets API (Working with list-based feeds)
-
-https://developers.google.com/google-apps/spreadsheets/#working_with_list-based_feeds
-
+- [Google Sheets API (Working with list-based feeds)](https://developers.google.com/google-apps/spreadsheets/#working_with_list-based_feeds)
