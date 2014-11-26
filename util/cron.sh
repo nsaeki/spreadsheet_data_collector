@@ -4,4 +4,4 @@
 # 0 4 * * * /path/to/this/repo/util/cron.sh
 
 cd `dirname $0`/..
-bundle exec ./collect_data.rb target/*
+bundle exec bin/collect_data.rb target/*
