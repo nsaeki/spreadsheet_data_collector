@@ -46,7 +46,7 @@ class SpreadsheetDataCollector
     ignore_before = Time.now - config['ignore_files_before']
 
     Dir.glob(File.join(dir, config['directory'], "*")) do |file|
-      if @options[:all_files] && File.mtime(file) < ignore_before
+      if !@options[:all_files] && File.mtime(file) < ignore_before
         @logger.debug("Skip old file: #{file}")
         next
       end
