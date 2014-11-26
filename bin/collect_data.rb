@@ -43,5 +43,5 @@ if __FILE__ == $0
     exit(1)
   end
 
-  SpreadsheetDataCollector.new(TOKEN_FILE, CREDS_FILE).run(*ARGV)
+  SpreadsheetDataCollector.new(TOKEN_FILE, CREDS_FILE, options).run(*ARGV)
 end
