@@ -25,7 +25,7 @@ class SpreadsheetDataCollector
                                                   @creds['installed']['client_secret'],
                                                   @token_file)
     @logger       = Logger.new($stdout)
-    @logger.level = Logger::DEBUG if @options[:debug]
+    @logger.level = @options[:debug] ? Logger::DEBUG : Logger::INFO
   end
 
   def run(*dirs)
