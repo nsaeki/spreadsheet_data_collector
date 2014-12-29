@@ -2,10 +2,10 @@
 require 'logger'
 require 'yaml'
 require 'json'
-require 'google_spreadsheet_recorder'
+require_relative 'google_spreadsheet_recorder'
 
 class SpreadsheetDataCollector
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
   DEFAULT_OPTIONS = {
     all_files: false,
     debug: false,
