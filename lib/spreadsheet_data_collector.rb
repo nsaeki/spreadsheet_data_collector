@@ -69,6 +69,8 @@ class SpreadsheetDataCollector
 
   def upload_single_file(file)
     config = find_config(file)
+    @spreadsheet.spreadsheet_key = config['spreadsheet_key']
+    sheet_id = worksheet_id(config['sheet_name'])
     record_to_spreadsheet(sheet_id, config, file)
   end
 
