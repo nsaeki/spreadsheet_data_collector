@@ -30,7 +30,7 @@ class SpreadsheetDataCollector
 
   def run(*paths)
     paths.each do |p|
-      File.directory?(path) ? collect_data(p) : upload_single_file(p)
+      File.directory?(p) ? collect_data(p) : upload_single_file(p)
     end
   end
 
