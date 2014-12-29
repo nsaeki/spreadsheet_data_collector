@@ -80,6 +80,8 @@ class SpreadsheetDataCollector
   def record_to_spreadsheet(sheet_id, config, data_file)
     @logger.info("Upload file: #{data_file} into worksheet: #{config['sheet_name']}")
     lines = IO.readlines(data_file)
+    return if lines.empty?
+
     columns = config['columns'] || lines.shift.strip.split("\t")
 
     rows = lines.map do |line|
