@@ -9,7 +9,7 @@ CREDS_FILE = File.expand_path('../../.credentials.json', __FILE__)
 def usage
   puts <<-EOS.gsub(/^\s*\|/, '')
           |
-          |Usage: #{__FILE__} target_dirs...
+          |Usage: #{__FILE__} dir_or_file(s)...
           |
           |  target_dir(s) : Collect data files in the directory.
           |                  (`.spreadsheet_report.yml` file resides in the directory)

@@ -5,7 +5,7 @@ require 'json'
 require 'google_spreadsheet_recorder'
 
 class SpreadsheetDataCollector
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
   DEFAULT_OPTIONS = {
     all_files: false,
     debug: false,
@@ -28,8 +28,10 @@ class SpreadsheetDataCollector
     @logger.level = @options[:debug] ? Logger::DEBUG : Logger::INFO
   end
 
-  def run(*dirs)
-    dirs.each { |d| collect_data(d) }
+  def run(*paths)
+    paths.each do |p|
+      File.directory?(path) ? collect_data(p) : upload_single_file(p)
+    end
   end
 
   private
@@ -63,6 +65,20 @@ class SpreadsheetDataCollector
     end
 
     DEFAULT_CONFIG.merge(YAML.load_file(config_file))
+  end
+
+  def upload_single_file(file)
+    config = find_config(file)
+    record_to_spreadsheet(sheet_id, config, file)
+  end
+
+  # Find config file in parent directory or ancestors.
+  def find_config(path)
+    if File.exists?(File.join(path, CONFIG_YAML))
+      load_config(path)
+    else
+      find_config(File.dirname(path))
+    end
   end
 
   # returns sheet_id
